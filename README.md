@@ -11,6 +11,9 @@ playstore : https://play.google.com/store/apps/details?id=org.techtown.weatherpu
 
 위도,경도 X,Y 격자 좌표로 변환 : https://gist.github.com/fronteer-kr/14d7f779d52a21ac2f16
 
+# 추가하고 싶은 기능
+일정 시간에 현재 날씨 ex) 비 맑음 흐림 등등 을 알려주는 notification 기능
+
 # 사용된 기술
 android studio, kotlin, retrofit2, recyclerView...
 
