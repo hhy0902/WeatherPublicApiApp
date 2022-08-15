@@ -22,7 +22,6 @@ class WeatherAdapter(val itemList : Array<ModelWeather>,
         val image : ImageView
         val windSpeed : TextView
 
-
         init {
             temp = itemView.findViewById(R.id.temp)
             rain = itemView.findViewById(R.id.rain)
@@ -52,6 +51,8 @@ class WeatherAdapter(val itemList : Array<ModelWeather>,
             "1" -> {
                 holder.sky.text = "하늘상태 : 맑음"
                 if (itemList.get(position).fcstTime.toInt() > 1800 ||
+                    itemList.get(position).fcstTime == "0000" ||
+                    itemList.get(position).fcstTime == "0100" ||
                     itemList.get(position).fcstTime == "0200" ||
                     itemList.get(position).fcstTime == "0300" ||
                     itemList.get(position).fcstTime == "0400" ||
@@ -59,15 +60,14 @@ class WeatherAdapter(val itemList : Array<ModelWeather>,
                     itemList.get(position).fcstTime == "0600") {
                     holder.image.setImageResource(R.drawable.sunny_night)
 
-                    when(itemList.get(position).fcstTime) {
-                        "0100" -> holder.image.setImageResource(R.drawable.sunny_night)
-                    }
                 } else
                     holder.image.setImageResource(R.drawable.sunny)
             }
             "3" -> {
                 holder.sky.text = "하늘상태 : 구름많음"
                 if (itemList.get(position).fcstTime.toInt() > 1800 ||
+                    itemList.get(position).fcstTime == "0000" ||
+                    itemList.get(position).fcstTime == "0100" ||
                     itemList.get(position).fcstTime == "0200" ||
                     itemList.get(position).fcstTime == "0300" ||
                     itemList.get(position).fcstTime == "0400" ||
@@ -87,7 +87,10 @@ class WeatherAdapter(val itemList : Array<ModelWeather>,
         }
         //holder.sky.text = itemList.get(position).sky
         when(itemList.get(position).rainType) {
-            "1" -> holder.rain.text = "강수형태 : 비"
+            "1" -> {
+                holder.rain.text = "강수형태 : 비"
+                holder.image.setImageResource(R.drawable.rain)
+            }
             else -> holder.rain.text = "강수형태 : 없음"
         }
         holder.humidity.text = "습도 : ${itemList.get(position).humidity}%"
