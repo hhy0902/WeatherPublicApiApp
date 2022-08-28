@@ -188,10 +188,31 @@ class MainActivity : AppCompatActivity() {
                                     Log.d("mainTime 00시", "${mainTime}")
                                     binding.mainImage.setImageResource(R.drawable.sunny_night)
                                 }
-                                "2400" -> {
-                                    Log.d("mainTime 24시", "${mainTime}")
+                                "0100" -> {
+                                    Log.d("mainTime 01시", "${mainTime}")
                                     binding.mainImage.setImageResource(R.drawable.sunny_night)
                                 }
+                                "0200" -> {
+                                    Log.d("mainTime 02시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
+                                }
+                                "0300" -> {
+                                    Log.d("mainTime 03시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
+                                }
+                                "0400" -> {
+                                    Log.d("mainTime 04시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
+                                }
+                                "0500" -> {
+                                    Log.d("mainTime 05시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
+                                }
+                                "0600" -> {
+                                    Log.d("mainTime 06시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
+                                }
+
                             }
                         }
                         "3" -> {
@@ -224,6 +245,30 @@ class MainActivity : AppCompatActivity() {
                                     Log.d("mainTime 00시", "${mainTime}")
                                     binding.mainImage.setImageResource(R.drawable.cloudy_night)
                                 }
+                                "0100" -> {
+                                    Log.d("mainTime 01시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                                }
+                                "0200" -> {
+                                    Log.d("mainTime 02시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                                }
+                                "0300" -> {
+                                    Log.d("mainTime 03시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                                }
+                                "0400" -> {
+                                    Log.d("mainTime 04시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                                }
+                                "0500" -> {
+                                    Log.d("mainTime 05시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                                }
+                                "0600" -> {
+                                    Log.d("mainTime 06시", "${mainTime}")
+                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                                }
                             }
 
                             if (mainRain?.toInt() == 1) {
@@ -235,15 +280,6 @@ class MainActivity : AppCompatActivity() {
                             Log.d("testt mainSky", "흐림")
                             binding.mainImage.setImageResource(R.drawable.cloud)
                             binding.skyStatus.text = "흐림"
-
-                            when(mainTime) {
-                                "1900" -> Log.d("mainTime 7시", "${mainTime}")
-                                "2000" -> Log.d("mainTime 8시", "${mainTime}")
-                                "2100" -> Log.d("mainTime 9시", "${mainTime}")
-                                "2200" -> Log.d("mainTime 10시", "${mainTime}")
-                                "2300" -> Log.d("mainTime 11시", "${mainTime}")
-                                "0000" -> Log.d("mainTime 12시", "${mainTime}")
-                            }
 
                             if (mainRain?.toInt() == 1) {
                                 binding.skyStatus.text = "흐림 / 비"
