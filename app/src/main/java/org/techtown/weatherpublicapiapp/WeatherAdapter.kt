@@ -7,10 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class WeatherAdapter(val itemList : Array<ModelWeather>,
-                     val layoutInflater: LayoutInflater,
-                     val activity: MainActivity
-) : RecyclerView.Adapter<WeatherAdapter.ViewHolder>() {
+class WeatherAdapter(val itemList : Array<ModelWeather>, val layoutInflater: LayoutInflater, val activity: MainActivity) : RecyclerView.Adapter<WeatherAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
 
@@ -91,6 +88,10 @@ class WeatherAdapter(val itemList : Array<ModelWeather>,
                 holder.rain.text = "강수형태 : 비"
                 holder.image.setImageResource(R.drawable.rain)
             }
+            "3" -> {
+                holder.rain.text = "강수형태 : 눈"
+                holder.image.setImageResource(R.drawable.snow)
+            }
             else -> holder.rain.text = "강수형태 : 없음"
         }
         holder.humidity.text = "습도 : ${itemList.get(position).humidity}%"
@@ -98,7 +99,6 @@ class WeatherAdapter(val itemList : Array<ModelWeather>,
         holder.windSpeed.text = "풍속 : ${itemList.get(position).windSpeed}m/s"
 
         //holder.rain.text = itemList.get(position).rainType
-
 
     }
 

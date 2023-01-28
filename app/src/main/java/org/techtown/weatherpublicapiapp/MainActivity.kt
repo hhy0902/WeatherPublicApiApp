@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
     private var lon : Double = 0.0
     private var lat : Double = 0.0
 
+    var weatherArr = arrayOf(ModelWeather(), ModelWeather(), ModelWeather(), ModelWeather(), ModelWeather(), ModelWeather())
+
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -71,20 +73,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun connectRetrofit() {
 
-        val url2 = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=JCrJa4%2F4eF07FKbnkSi7BDDUvnJXCE1CTiyt%2FfnxJ%2B7jewHaXTp5hrKQzOKdWYctQB%2B3a%2FHLuUHkTPq4hqrxvA%3D%3D&pageNo=1&numOfRows=1000&dataType=json&base_date=20220527&base_time=0500&nx=62&ny=125"
-
-        val gson : Gson = GsonBuilder()
-            .setLenient()
-            .create()
-        // 에러나서 수정한 부분 GsonConverterFactory.create() 여기에 gson 넣어줌
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("http://apis.data.go.kr/")
-//            .addConverterFactory(GsonConverterFactory.create(gson))
-//            .build()
-//        val retrofitService = retrofit.create(RetrofitService::class.java)
-
         val convertXY2 = convertGRID_GPS(TO_GRID, lat, lon)
-
         val cal = Calendar.getInstance()
         val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmm"))
         var baseDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time) // 현재 날짜
@@ -120,12 +109,10 @@ class MainActivity : AppCompatActivity() {
 
                     val item = response.body()
                     val itemList = item?.response?.body?.items?.item
-
                     Log.d("testt itemlist","${itemList}")
                     Log.d("testt totalcount","${response.body()?.response?.body?.totalCount}")
 
-                    val weatherArr = arrayOf(ModelWeather(), ModelWeather(), ModelWeather(), ModelWeather(), ModelWeather(), ModelWeather())
-
+                    //val weatherArr = arrayOf(ModelWeather(), ModelWeather(), ModelWeather(), ModelWeather(), ModelWeather(), ModelWeather())
                     var index = 0
                     val totalCount = response.body()?.response?.body?.totalCount!!.toInt()-1
 
@@ -147,149 +134,8 @@ class MainActivity : AppCompatActivity() {
                         weatherArr[i].fcstTime = itemList?.get(i)?.fcstTime.toString()
                     }
 
-                    val mainSky = weatherArr.firstOrNull()?.sky
-                    val mainRain = weatherArr.firstOrNull()?.rainType
-                    val mainTemp = weatherArr.firstOrNull()?.temp
-                    val mainTime = weatherArr.firstOrNull()?.fcstTime.toString()
-                    Log.d("testt mainSky", "${mainSky}")
-                    Log.d("testt mainRain", "${mainRain}")
-                    Log.d("testt mainTemp", "${mainTemp}")
-                    Log.d("testt mainTime", "${mainTime}")
-
-                    when(mainSky) {
-                        // 여기서 밤 낮 구분을 해줘야 함
-                        "1" -> {
-                            Log.d("testt mainSky", "맑음")
-                            binding.mainImage.setImageResource(R.drawable.sunny)
-                            binding.skyStatus.text = "맑음"
-
-                            when(mainTime) {
-                                "1900" -> {
-                                    Log.d("mainTime 7시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "2000" -> {
-                                    Log.d("mainTime 8시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "2100" -> {
-                                    Log.d("mainTime 9시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "2200" -> {
-                                    Log.d("mainTime 10시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "2300" -> {
-                                    Log.d("mainTime 11시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "0000" -> {
-                                    Log.d("mainTime 00시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "0100" -> {
-                                    Log.d("mainTime 01시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "0200" -> {
-                                    Log.d("mainTime 02시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "0300" -> {
-                                    Log.d("mainTime 03시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "0400" -> {
-                                    Log.d("mainTime 04시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "0500" -> {
-                                    Log.d("mainTime 05시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-                                "0600" -> {
-                                    Log.d("mainTime 06시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.sunny_night)
-                                }
-
-                            }
-                        }
-                        "3" -> {
-                            Log.d("testt mainSky", "구름많음")
-                            binding.mainImage.setImageResource(R.drawable.cloudy)
-                            binding.skyStatus.text = "구름많음"
-
-                            when(mainTime) {
-                                "1900" -> {
-                                    Log.d("mainTime 7시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "2000" -> {
-                                    Log.d("mainTime 8시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "2100" -> {
-                                    Log.d("mainTime 9시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "2200" -> {
-                                    Log.d("mainTime 10시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "2300" -> {
-                                    Log.d("mainTime 11시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "0000" -> {
-                                    Log.d("mainTime 00시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "0100" -> {
-                                    Log.d("mainTime 01시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "0200" -> {
-                                    Log.d("mainTime 02시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "0300" -> {
-                                    Log.d("mainTime 03시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "0400" -> {
-                                    Log.d("mainTime 04시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "0500" -> {
-                                    Log.d("mainTime 05시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                                "0600" -> {
-                                    Log.d("mainTime 06시", "${mainTime}")
-                                    binding.mainImage.setImageResource(R.drawable.cloudy_night)
-                                }
-                            }
-
-                            if (mainRain?.toInt() == 1) {
-                                binding.skyStatus.text = "구름많음 / 비"
-                                binding.mainImage.setImageResource(R.drawable.rain)
-                            }
-                        }
-                        else -> {
-                            Log.d("testt mainSky", "흐림")
-                            binding.mainImage.setImageResource(R.drawable.cloud)
-                            binding.skyStatus.text = "흐림"
-
-                            if (mainRain?.toInt() == 1) {
-                                binding.skyStatus.text = "흐림 / 비"
-                                binding.mainImage.setImageResource(R.drawable.rain)
-                            }
-                        }
-                    }
-
-
-                    binding.temp.text = "${mainTemp}℃"
+                    // 화면 가운데에 표시되는 정보를 보여주는 곳
+                    mainInfo()
 
                     binding.recyvlerView.adapter = WeatherAdapter(weatherArr, LayoutInflater.from(this@MainActivity), this@MainActivity)
                     binding.recyvlerView.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -304,6 +150,164 @@ class MainActivity : AppCompatActivity() {
                 Log.d("testt fail","${t.message}")
             }
         })
+    }
+
+    private fun mainInfo() {
+
+        var mainSky = weatherArr.firstOrNull()?.sky
+        var mainRain = weatherArr.firstOrNull()?.rainType
+        val mainTemp = weatherArr.firstOrNull()?.temp
+        val mainTime = weatherArr.firstOrNull()?.fcstTime.toString()
+        Log.d("testt mainSky", "${mainSky}")
+        Log.d("testt mainRain", "${mainRain}")
+        Log.d("testt mainTemp", "${mainTemp}")
+        Log.d("testt mainTime", "${mainTime}")
+
+        when(mainSky) {
+            // 여기서 밤 낮 구분을 해줘야 함
+            "1" -> {
+                Log.d("testt mainSky", "맑음")
+                binding.mainImage.setImageResource(R.drawable.sunny)
+                binding.skyStatus.text = "맑음"
+                when(mainTime) {
+                    "1900" -> {
+                        Log.d("mainTime 7시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "2000" -> {
+                        Log.d("mainTime 8시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "2100" -> {
+                        Log.d("mainTime 9시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "2200" -> {
+                        Log.d("mainTime 10시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "2300" -> {
+                        Log.d("mainTime 11시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "0000" -> {
+                        Log.d("mainTime 00시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "0100" -> {
+                        Log.d("mainTime 01시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "0200" -> {
+                        Log.d("mainTime 02시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "0300" -> {
+                        Log.d("mainTime 03시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "0400" -> {
+                        Log.d("mainTime 04시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "0500" -> {
+                        Log.d("mainTime 05시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+                    "0600" -> {
+                        Log.d("mainTime 06시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.sunny_night)
+                    }
+
+                }
+
+                if (mainRain?.toInt() == 1) {
+                    binding.skyStatus.text = "맑음 / 비"
+                    binding.mainImage.setImageResource(R.drawable.rain)
+                } else if (mainRain?.toInt() == 3) {
+                    binding.skyStatus.text = "맑음 / 눈"
+                    binding.mainImage.setImageResource(R.drawable.snow)
+                }
+            }
+            "3" -> {
+                Log.d("testt mainSky", "구름많음")
+                binding.mainImage.setImageResource(R.drawable.cloudy)
+                binding.skyStatus.text = "구름많음"
+                when(mainTime) {
+                    "1900" -> {
+                        Log.d("mainTime 7시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "2000" -> {
+                        Log.d("mainTime 8시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "2100" -> {
+                        Log.d("mainTime 9시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "2200" -> {
+                        Log.d("mainTime 10시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "2300" -> {
+                        Log.d("mainTime 11시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "0000" -> {
+                        Log.d("mainTime 00시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "0100" -> {
+                        Log.d("mainTime 01시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "0200" -> {
+                        Log.d("mainTime 02시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "0300" -> {
+                        Log.d("mainTime 03시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "0400" -> {
+                        Log.d("mainTime 04시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "0500" -> {
+                        Log.d("mainTime 05시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                    "0600" -> {
+                        Log.d("mainTime 06시", "${mainTime}")
+                        binding.mainImage.setImageResource(R.drawable.cloudy_night)
+                    }
+                }
+
+                if (mainRain?.toInt() == 1) {
+                    binding.skyStatus.text = "구름많음 / 비"
+                    binding.mainImage.setImageResource(R.drawable.rain)
+                } else if (mainRain?.toInt() == 3) {
+                    binding.skyStatus.text = "구름많음 / 눈"
+                    binding.mainImage.setImageResource(R.drawable.snow)
+                }
+            }
+            else -> {
+                Log.d("testt mainSky", "흐림")
+                binding.mainImage.setImageResource(R.drawable.cloud)
+                binding.skyStatus.text = "흐림"
+
+                if (mainRain?.toInt() == 1) {
+                    binding.skyStatus.text = "흐림 / 비"
+                    binding.mainImage.setImageResource(R.drawable.rain)
+                } else if (mainRain?.toInt() == 3) {
+                    binding.skyStatus.text = "흐림 / 눈"
+                    binding.mainImage.setImageResource(R.drawable.snow)
+                }
+            }
+        }
+
+        binding.temp.text = "${mainTemp}℃"
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
